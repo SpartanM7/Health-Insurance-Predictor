@@ -14,7 +14,7 @@ from feature_engine.outliers import ArbitraryOutlierCapper
 warnings.filterwarnings("ignore")
 pd.options.mode.chained_assignment = None
 
-from mpsw import mpswt
+from appCode import mpswt
 
 st.set_page_config(page_title="Health_Insurance", layout="wide", initial_sidebar_state="expanded")
 st.set_option("deprecation.showPyplotGlobalUse", False) #to control the display of Matplotlib deprecation warnings
