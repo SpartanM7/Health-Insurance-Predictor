@@ -15,6 +15,16 @@ from feature_engine.outliers import ArbitraryOutlierCapper
 warnings.filterwarnings("ignore")
 pd.options.mode.chained_assignment = None
 
+# libraries for Machine Learning -> Linear Regression models
+from sklearn.linear_model import LinearRegression,Lasso
+from sklearn.svm import SVR
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+from xgboost import XGBRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import r2_score
+
 
 def mpswt(age,sex,bmi,Children,smoker,region):
     health = pd.read_csv('medical-charges.csv') #read csv file
@@ -56,48 +66,6 @@ def mpswt(age,sex,bmi,Children,smoker,region):
     # calculate the total count, mean, standard deviation, minimum to max
     print(health1.describe().T)
 
-    # creating pie chart for sex, smoking status, and region
-    # features = ['sex', 'smoker', 'region']
-     
-    # plt.subplots(figsize=(20, 10))
-    # for i, col in enumerate(features):
-    #     plt.subplot(1, 3, i + 1)
-     
-    #     x = health1[col].value_counts()
-    #     plt.pie(x.values,
-    #             labels=x.index,
-    #             autopct='%1.1f%%')
-    # plt.show()
-
-    # creating bar graphs
-    # features = ['sex', 'children', 'smoker', 'region']
-     
-    # plt.subplots(figsize=(20, 10))
-    # for i, col in enumerate(features):
-    #     plt.subplot(2, 2, i + 1)
-    #     health1.groupby(col).mean()['premium'].plot.bar()
-    # plt.show()
-
-    # creating scatter plot
-    # features = ['age', 'bmi']
-     
-    # plt.subplots(figsize=(17, 7))
-    # for i, col in enumerate(features):
-    #     plt.subplot(1, 2, i + 1)
-    #     sns.scatterplot(data=health1, x=col,
-    #                    y='premium',
-    #                    hue='smoker')
-    # plt.show()
-
-    # Data preprocessing
-
-    # creating boxplot for age
-    # sns.boxplot(health1['age'])
-    # plt.show()
-    # # creating boxplot for bmi
-    # sns.boxplot(health1['bmi'])
-    # plt.show()
-
     # cleaning the outlying data
     Q1=health1['bmi'].quantile(0.25)
     Q2=health1['bmi'].quantile(0.5)
@@ -109,7 +77,7 @@ def mpswt(age,sex,bmi,Children,smoker,region):
     print(upplim)
 
 
-    arb=ArbitraryOutlierCapper(min_capping_dict={'bmi':13.7},max_capping_dict={'bmi':47.29})
+    arb=ArbitraryOutlierCapper(min_capping_dict={'bmi':lowlim},max_capping_dict={'bmi':upplim})
     health1[['bmi']]=arb.fit_transform(health1[['bmi']])
     sns.boxplot(health1['bmi'])
     # plt.show()
@@ -136,13 +104,6 @@ def mpswt(age,sex,bmi,Children,smoker,region):
     # model development and training
     X=health1.drop(['premium'],axis=1)
     Y=health1[['premium']]
-    from sklearn.linear_model import LinearRegression,Lasso
-    from sklearn.svm import SVR
-    from sklearn.ensemble import RandomForestRegressor
-    from sklearn.ensemble import GradientBoostingRegressor
-    from xgboost import XGBRegressor
-    from sklearn.model_selection import train_test_split
-    from sklearn.model_selection import cross_val_score
     l1=[]
     l2=[]
     l3=[]
@@ -160,18 +121,17 @@ def mpswt(age,sex,bmi,Children,smoker,region):
         df1=pd.DataFrame({'train acc':l1,'test acc':l2,'cvs':l3})
     print(df1)
 
-    # # Linear Regression model
-    # xtrain,xtest,ytrain,ytest=train_test_split(X,Y,test_size=0.2,random_state=42)
-    # lrmodel=LinearRegression()
-    # lrmodel.fit(xtrain,ytrain)
-    # print(lrmodel.score(xtrain,ytrain))
-    # print(lrmodel.score(xtest,ytest))
-    # print(cross_val_score(lrmodel,X,Y,cv=5,).mean())
+    # Linear Regression model
+    xtrain,xtest,ytrain,ytest=train_test_split(X,Y,test_size=0.2,random_state=42)
+    lrmodel=LinearRegression()
+    lrmodel.fit(xtrain,ytrain)
+    print(lrmodel.score(xtrain,ytrain))
+    print(lrmodel.score(xtest,ytest))
+    print(cross_val_score(lrmodel,X,Y,cv=5,).mean())
 
 
 
     # # SVR model
-    # from sklearn.metrics import r2_score
     # svrmodel=SVR()
     # svrmodel.fit(xtrain,ytrain)
     # ypredtrain1=svrmodel.predict(xtrain)
