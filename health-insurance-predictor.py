@@ -82,11 +82,11 @@ print(health1.describe().T)
 # Data preprocessing
 
 # creating boxplot for age
-# sns.boxplot(health1['age'])
-# plt.show()
-# # creating boxplot for bmi
-# sns.boxplot(health1['bmi'])
-# plt.show()
+sns.boxplot(health1['age'])
+plt.show()
+# creating boxplot for bmi
+sns.boxplot(health1['bmi'])
+plt.show()
 
 # cleaning the outlying data
 Q1=health1['bmi'].quantile(0.25)
