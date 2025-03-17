@@ -109,17 +109,6 @@ def mpswt(age,sex,bmi,Children,smoker,region):
     l3=[]
     cvs=0
 
-    # dividing in testing and validating data sets
-    for i in range(40,50):
-        xtrain,xtest,ytrain,ytest=train_test_split(X,Y,test_size=0.2,random_state=i)
-        lrmodel=LinearRegression()
-        lrmodel.fit(xtrain,ytrain)
-        l1.append(lrmodel.score(xtrain,ytrain))
-        l2.append(lrmodel.score(xtest,ytest))
-        cvs=(cross_val_score(lrmodel,X,Y,cv=5,)).mean()
-        l3.append(cvs)
-        df1=pd.DataFrame({'train acc':l1,'test acc':l2,'cvs':l3})
-    print(df1)
 
     # Linear Regression model
     xtrain,xtest,ytrain,ytest=train_test_split(X,Y,test_size=0.2,random_state=42)
@@ -128,63 +117,6 @@ def mpswt(age,sex,bmi,Children,smoker,region):
     print(lrmodel.score(xtrain,ytrain))
     print(lrmodel.score(xtest,ytest))
     print(cross_val_score(lrmodel,X,Y,cv=5,).mean())
-
-
-
-    # # SVR model
-    # svrmodel=SVR()
-    # svrmodel.fit(xtrain,ytrain)
-    # ypredtrain1=svrmodel.predict(xtrain)
-    # ypredtest1=svrmodel.predict(xtest)
-    # print(r2_score(ytrain,ypredtrain1))
-    # print(r2_score(ytest,ypredtest1))
-    # print(cross_val_score(svrmodel,X,Y,cv=5,).mean())
-
-
-
-    # # RandomForestRegressor model
-    # rfmodel=RandomForestRegressor(random_state=42)
-    # rfmodel.fit(xtrain,ytrain)
-    # ypredtrain2=rfmodel.predict(xtrain)
-    # ypredtest2=rfmodel.predict(xtest)
-    # print(r2_score(ytrain,ypredtrain2))
-    # print(r2_score(ytest,ypredtest2))
-    # print(cross_val_score(rfmodel,X,Y,cv=5,).mean())
-    # from sklearn.model_selection import GridSearchCV
-    # estimator=RandomForestRegressor(random_state=42)
-    # param_grid={'n_estimators':[10,40,50,98,100,120,150]}
-    # grid=GridSearchCV(estimator,param_grid,scoring="r2",cv=5)
-    # grid.fit(xtrain,ytrain)
-    # print(grid.best_params_)
-    # rfmodel=RandomForestRegressor(random_state=42,n_estimators=120)
-    # rfmodel.fit(xtrain,ytrain)
-    # ypredtrain2=rfmodel.predict(xtrain)
-    # ypredtest2=rfmodel.predict(xtest)
-    # print(r2_score(ytrain,ypredtrain2))
-    # print(r2_score(ytest,ypredtest2))
-    # print(cross_val_score(rfmodel,X,Y,cv=5,).mean())
-
-    # # GradientBoostingRegressor model
-    # gbmodel=GradientBoostingRegressor()
-    # gbmodel.fit(xtrain,ytrain)
-    # ypredtrain3=gbmodel.predict(xtrain)
-    # ypredtest3=gbmodel.predict(xtest)
-    # print(r2_score(ytrain,ypredtrain3))
-    # print(r2_score(ytest,ypredtest3))
-    # print(cross_val_score(gbmodel,X,Y,cv=5,).mean())
-    # from sklearn.model_selection import GridSearchCV
-    # estimator=GradientBoostingRegressor()
-    # param_grid={'n_estimators':[10,15,19,20,21,50],'learning_rate':[0.1,0.19,0.2,0.21,0.8,1]}
-    # grid=GridSearchCV(estimator,param_grid,scoring="r2",cv=5)
-    # grid.fit(xtrain,ytrain)
-    # print(grid.best_params_)
-    # gbmodel=GradientBoostingRegressor(n_estimators=19,learning_rate=0.2)
-    # gbmodel.fit(xtrain,ytrain)
-    # ypredtrain3=gbmodel.predict(xtrain)
-    # ypredtest3=gbmodel.predict(xtest)
-    # print(r2_score(ytrain,ypredtrain3))
-    # print(r2_score(ytest,ypredtest3))
-    # print(cross_val_score(gbmodel,X,Y,cv=5,).mean())
 
 
     #XGBRegressor model
